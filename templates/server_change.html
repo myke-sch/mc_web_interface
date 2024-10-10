@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MC Web Interface</title>
+    <link rel="stylesheet" href="../static/server_change.css">
+</head>
+<body>
+<script>
+    setTimeout(function(){
+        window.location.href = '{{redirectURL}}';
+    }, 2000);
+</script>
+<div class="container">
+   {% block body %}
+<h1>{{ status_message }}</h1>
+{% endblock %}
+<div class="loader"></div>
+</div>
+
+</body>
+</html>

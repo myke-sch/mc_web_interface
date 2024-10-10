@@ -1,19 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="../static/stop_btn_script.js"></script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<form action = "/start" method="get">
-   <input type="submit" value="Start">
+<div class="buttons">
+   <form action = "/start" method="get">
+    <button class="button-start" role="button">Start</button>
 </form>
 
+<form action = "/stop" method="get">
+    <button class="button-stop" role="button">Stop</button>
+</form>
 
-<form action = "/whitelist" method="POST">
+    <form action = "/restart" method="get">
+    <button class="button-restart" role="button">Restart</button>
+</form>
+</div>
+
+
+
+
+
+<div class="whiteListInput">
+    <form action = "/whitelist" method="POST">
     <input type="text" name="username">
    <input type="submit" value="Whitelist Me">
 </form>
+
+<form action = "/removeWl" method="POST">
+    <input type="text" name="username">
+   <input type="submit" value="Remove from Whitelist">
+</form>
+</div>
+
+
+{% block body %}
+<p class="errroMessage">{{ error_message }}</p>
+{% endblock %}
 
 </body>
 </html>

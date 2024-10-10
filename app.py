@@ -1,8 +1,7 @@
-from flask import Flask, request, render_template, redirect, url_for
 import subprocess
-import firstStart
+
 import psutil
-from time import sleep
+from flask import Flask, request, render_template, redirect, url_for
 from rcon.source import Client
 
 app = Flask(__name__)
@@ -20,55 +19,105 @@ def test_pusutil():
         if 'cmd' in proc.info['name']:
             print(proc.info)
 
-def getWhitelistedPlayers():
 
+def getWhitelistedPlayers(outputMode):
     playerList = []
-    with Client('62.171.167.28', 25575, passwd='JarryLarry') as client:
-        response = client.run('whitelist list')
+    playerListOutput = []
+    try:
+        with Client('62.171.167.28', 25575, passwd='JarryLarry') as client:
+            response = client.run('whitelist list')
 
-    response = response[35:]
-    response = response.replace("'", "")
-    response = response.replace(",", "")
-    for i in response.split():
-        playerList.append(i.lower())
-        #print(i)
-    #print(response[35:])
+        response = response[35:]
+        response = response.replace("'", "")
+        response = response.replace(",", "")
+        for i in response.split():
+            playerList.append(i.lower())
+            playerListOutput.append(i)
+        # print(i)
+        # print(response[35:])
 
-    print(playerList)
-    return playerList
+        print(playerList)
+        outputString = "Whitelisted Players: \n"
+        for n in playerListOutput:
+            outputString += "\t" + n + "\n"
+
+        if outputMode:
+            return outputString
+        else:
+            return playerList
+    except:
+        error_message = "Could not load Whitelist"
+        print("Error could not connect to Server")
+        return error_message
 
 
 @app.route("/")
 def interface():
-    getWhitelistedPlayers()
-    return render_template('interface.html')
+    error_message = getWhitelistedPlayers(1)
+    return render_template('interface.html', error_message=error_message)
 
 
 @app.route('/start')
 def start_server():
     process = subprocess.Popen(['.\\test.bat'])
-    return redirect(url_for('interface'))
+    status_message = "Starting the server please wait"
+    # server_change("Starting the server please wait")
+    # return redirect(url_for('interface',))
+    return render_template('server_change.html', status_message=status_message, redirectURL=url_for('interface', ))
+
+
+@app.route('/stop')
+def stop_server():
+    process = subprocess.Popen(['.\\test.bat'])
+    status_message = "Stopping the server please wait"
+    return render_template('server_change.html', status_message=status_message, redirectURL=url_for('interface', ))
+
+
+@app.route('/restart')
+def restart_server():
+    process = subprocess.Popen(['.\\test.bat'])
+    status_message = "Restarting the server please wait"
+    return render_template('server_change.html', status_message=status_message, redirectURL=url_for('interface', ))
 
 
 @app.route('/whitelist', methods=["GET", "POST"])
 def whitelistPlayer():
     if request.method == "POST":
         username = request.form['username']
-        if username.lower() in getWhitelistedPlayers():
+        if username.lower() in getWhitelistedPlayers(0):
             return "You are already whitelisted"
         else:
             command: str = "whitelist add " + username
             with Client('62.171.167.28', 25575, passwd='JarryLarry') as client:
                 response = client.run(command)
 
-            responseCMD : str = response
+            responseCMD: str = response
 
-
-        if responseCMD == "Added " +  username.lower() +  " to the whitelist":
+        if responseCMD == "Added " + username.lower() + " to the whitelist":
             return "Whitelist was succesful"
         else:
             return redirect(url_for('interface'))
 
 
+@app.route('/removeWl', methods=["GET", "POST"])
+def removeWhitelist():
+    if request.method == "POST":
+        username = request.form['username']
+        print(username.lower())
+        if username.lower() in getWhitelistedPlayers(0):
+            command: str = "whitelist remove " + username
+            with Client('62.171.167.28', 25575, passwd='JarryLarry') as client:
+                response = client.run(command)
+
+            responseCMD: str = response
+
+            if responseCMD == "Removed " + username.lower() + " from the whitelist":
+                return "Whitelist was succesful"
+            else:
+                return redirect(url_for('interface'))
+        else:
+            return "Player not found"
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

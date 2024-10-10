@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+}
+
+body {
+    background: #7f8c8d;
+}
+
+h1 {
+
+    color: #ffffff;
+
+}
+
+.container {
+
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    flex-flow: column;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    margin-top: 40px;
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #ffffff #0000;
+  animation: l1 1s infinite, l2 1s infinite;
+}
+
+@keyframes l1 {to{transform: rotate(.5turn)}}
+@keyframes l2 {
+  0% {border-color: #3498db #0000;}
+  50% {border-color: #9b59b6 #0000;}
+    100% {border-color: #3498db #0000;}
+}
