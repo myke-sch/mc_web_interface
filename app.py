@@ -98,7 +98,7 @@ def whitelistPlayer():
         else:
             return redirect(url_for('interface'))
 
-
+#siehe ChatGpt
 @app.route('/removeWl', methods=["GET", "POST"])
 def removeWhitelist():
     if request.method == "POST":
