@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="../static/stop_btn_script.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script type="text/javascript">// <![CDATA[
+        function loading(){
+            $("#loading").show();
+            $("#content").hide();
+        }
+// ]]></script>
+<script type="text/javascript">
+    function validateForm() {
+  var x = document.forms["serverForm"]["passwordField"].value;
+  if (x == "") {
+    alert("Name must be filled out");
+    return false;
+  }
+}
+</script>
+
+
+<div id="loading">
+    <div class="lds-facebook">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<div id="content">
+<div class="buttons">
+    <form name="serverForm" action="/serverControl" method="post">
+        <div class="button-container">
+            <input class="button-start" type="submit" name="start" value="Start">
+            <input class="button-stop" type="submit" name="stop" value="Stop">
+            <input class="button-restart" type="submit" name="restart" value="Restart">
+        </div>
+        <input type="password" name="passwordField" placeholder="Passwort">
+    </form>
+</div>
+
+    {% block body %}
+<p class="statusMessage">{{ statusMessage }}</p>
+        <p class="players">Players online: {{ players }}</p>
+        {% if players > 0 %}
+        <h3>Players:</h3>
+        {% else %}
+        <p></p>
+        {% endif %}
+        {% for player in playerNames %}
+            <p> {{ player }} </p>
+        {% endfor %}
+{% endblock %}
+    </div>
+
+</body>
+</html>

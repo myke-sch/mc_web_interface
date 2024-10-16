@@ -22,7 +22,17 @@
 </div>
 
 
+ <form action = "/start" method="get">
+    <button class="button-start" role="button">Start</button>
+</form>
 
+<form action = "/stop" method="get">
+    <button class="button-stop" role="button">Stop</button>
+</form>
+
+    <form action = "/restart" method="get">
+    <button class="button-restart" role="button">Restart</button>
+</form>
 
 
 <div class="whiteListInput">
@@ -40,6 +50,7 @@
 
 {% block body %}
 <p class="errroMessage">{{ error_message }}</p>
+    <p class="players">{{ players }}</p>
 {% endblock %}
 
 </body>
