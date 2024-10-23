@@ -41,17 +41,13 @@
             <input class="button-restart" type="submit" name="restart" value="Restart">
         </div>
         <input type="password" name="passwordField" placeholder="Passwort">
-    </form>
-</div>
-
-<div class="Whitelist">
-    <form name="whitelistForm" action="/whitelist" method="post">
         <div class="formContainer">
             <input class="whiteListInput" type="text" name="playerName" placeholder="Username">
             <input class="button-whitelist" type="submit" name="whitelistSubmit" value="Whitelist">
         </div>
     </form>
 </div>
+
 
     {% block body %}
 <p class="statusMessage">{{ statusMessage }}</p>

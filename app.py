@@ -114,6 +114,12 @@ def controlServer():
             return render_template('server_change.html', status_message=status_message, time=30000,
                                    redirectURL=url_for('index'))
 
+        if request.form.get('whitelistSubmit'):
+            subprocess.call(["screen", "-S", "minecraft", "-p", "0", "-X", "stuff", "'say test^M"])
+            sleep(3)
+            return redirect(url_for('index'))
+
+
         else:
             return render_template('error.html')
     else:
