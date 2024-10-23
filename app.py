@@ -139,21 +139,9 @@ def restart_server():
 
 @app.route('/whitelist', methods=["GET", "POST"])
 def whitelistPlayer():
-    if request.method == "POST":
-        username = request.form['username']
-        if username.lower() in getWhitelistedPlayers(0):
-            return "You are already whitelisted"
-        else:
-            command: str = "whitelist add " + username
-            with Client('62.171.167.28', 25575, passwd='JarryLarry') as client:
-                response = client.run(command)
-
-            responseCMD: str = response
-
-        if responseCMD == "Added " + username.lower() + " to the whitelist":
-            return "Whitelist was succesful"
-        else:
-            return redirect(url_for('interface'))
+    subprocess.call(["screen", "-S", "minecraft", "-p", "0", "-X", "stuff", "'say test^M"])
+    sleep(3)
+    return redirect(url_for('index'))
 
 
 # siehe ChatGpt
